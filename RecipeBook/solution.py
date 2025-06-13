@@ -1,0 +1,88 @@
+from dataclasses import dataclass
+from enum import Enum, StrEnum, auto
+
+class DietaryTag(StrEnum):
+    VEGAN = auto()
+    VEGETARIAN = auto()
+    GLUTEN_FREE = auto()
+    NUT_FREE = auto()
+
+@dataclass
+class Ingredient:
+    name: str
+    dietary_tags: list[DietaryTag]
+
+class RecipeIngredient:
+    def __init__(self, ingredient: Ingredient, quantity: int | float, unit: str):
+        self.ingredient = ingredient
+        self.quantity = quantity
+        self.unit = unit
+
+class Recipe:
+    def __init__(self, name: str, ingredients: list[RecipeIngredient]):
+        self.name = name
+        self.ingredients = ingredients
+        # We need dietary tags for the recipe
+
+class RecipeBook:
+    def __init__(self, name: str):
+        self.name = name
+        self.recipes = [] # Some data structure to store recipes
+
+# Finally, we discussed the issue of creating a repository of ingredients
+# We don't really want to list them all like this:
+flour = Ingredient("Flour", [DietaryTag.VEGAN, DietaryTag.VEGETARIAN])
+egg = Ingredient("Egg", [DietaryTag.NUT_FREE])
+
+# Here are some options
+# Option 1
+ingredient_repository_dict = {
+    "Flour": Ingredient("Flour", [DietaryTag.VEGAN, DietaryTag.VEGETARIAN]),
+    "Egg": Ingredient("Egg", [DietaryTag.NUT_FREE]),
+}
+
+# Option 2
+@dataclass
+class IngredientRepository:
+    flour: Ingredient
+    egg: Ingredient
+
+ingredient_repository = IngredientRepository(
+    Ingredient("Flour", [DietaryTag.VEGAN, DietaryTag.VEGETARIAN]),
+    Ingredient("Egg", [DietaryTag.NUT_FREE]),
+)
+
+# Option 3
+class IngredientRepository(Enum):
+    FLOUR = Ingredient("Flour", [DietaryTag.VEGAN, DietaryTag.VEGETARIAN])
+    EGG = Ingredient("Egg", [DietaryTag.NUT_FREE])
+
+# Option 4
+class IngredientRepository:
+    def __init__(self, name):
+        self.name = name
+        self._ingredients = {}
+
+    def add_ingredient(self, ingredient: Ingredient):
+        if ingredient.name.upper() in self._ingredients:
+            raise ValueError("Ingredient already exists")
+        self._ingredients[ingredient.name.upper()] = ingredient
+
+    def __getattr__(self, name):
+        name = name.upper()
+        if name in self._ingredients:
+            return self._ingredients[name]
+        raise AttributeError("Ingredient not found")
+
+
+repository = IngredientRepository("repository")
+repository.add_ingredient(Ingredient("Flour", [DietaryTag.VEGAN, DietaryTag.VEGETARIAN]))
+print(repository.FLOUR)
+
+flour_in_cake = RecipeIngredient(flour, 100, "g")
+egg_in_cake = RecipeIngredient(egg, 4, "units")
+
+cake = Recipe("Cake", [flour_in_cake, egg_in_cake])
+
+# tomato_pasta = Recipe("", [tomato, pasta])
+# salad = Recipe("", [tomato])
