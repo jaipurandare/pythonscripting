@@ -15,3 +15,19 @@ class TestRecipeBook(unittest.TestCase):
 #     recipe = create_recipe("Pasta", "Boil water, add pasta, cook for 10 minutes.")
 #     assert recipe['name'] == "Pasta"
 #     assert recipe['instructions'] == "Boil water, add pasta, cook for 10 minutes."
+
+
+from solution import Recipe, RecipeIngredient, Ingredient, DietaryTag
+class TestRecipe(unittest.TestCase):
+    
+    def test_initialize_recipe(self):
+        # This function should initialize a recipe
+        tomato = Ingredient("Tomato", [DietaryTag.VEGAN, DietaryTag.VEGETARIAN])
+        pasta = Ingredient("Pasta", [DietaryTag.VEGAN, DietaryTag.VEGETARIAN])
+        two_tomatoes = RecipeIngredient(tomato, 2, "number")
+        pasta_4oz = RecipeIngredient(pasta, 4, "oz")
+        pasta_name = "Pasta with Tomato"
+        my_recipe = Recipe(pasta_name, [two_tomatoes, pasta_4oz])
+        self.assertIsNotNone(my_recipe)
+        self.assertEqual(my_recipe.name, pasta_name)
+        self.assertListEqual(my_recipe.ingredients, [two_tomatoes, pasta_4oz])
