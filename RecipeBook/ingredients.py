@@ -12,7 +12,4 @@ class RecipeIngredient:
         self.ingredient = ingredient
         self.quantity = quantity
         self.unit = unit
-
-    @property
-    def dietary_tags(self):
-        return self.ingredient.dietary_tags
+        self.dietary_tags = self.ingredient.dietary_tags
