@@ -9,6 +9,13 @@ class Recipe:
         self.ingredients = ingredients
         # We need dietary tags for the recipe
 
+    def get_dietary_tags(self):
+        tags = set()
+        if self.ingredients:
+            tags = set.union(*[ingredient.dietary_tags for ingredient in self.ingredients])
+        return tags
+
+
 class RecipeBook:
     def __init__(self, name: str):
         self.name = name
