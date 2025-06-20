@@ -1,22 +1,7 @@
 from dataclasses import dataclass
-from enum import Enum, StrEnum, auto
-
-class DietaryTag(StrEnum):
-    VEGAN = auto()
-    VEGETARIAN = auto()
-    GLUTEN_FREE = auto()
-    NUT_FREE = auto()
-
-@dataclass
-class Ingredient:
-    name: str
-    dietary_tags: list[DietaryTag]
-
-class RecipeIngredient:
-    def __init__(self, ingredient: Ingredient, quantity: int | float, unit: str):
-        self.ingredient = ingredient
-        self.quantity = quantity
-        self.unit = unit
+from enum import Enum
+from constants import DietaryTag
+from ingredients import Ingredient, RecipeIngredient
 
 class Recipe:
     def __init__(self, name: str, ingredients: list[RecipeIngredient]):
