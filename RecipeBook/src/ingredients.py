@@ -1,11 +1,12 @@
 from dataclasses import dataclass
-from constants import DietaryTag
+from .constants import DietaryTag
 
 
 @dataclass
 class Ingredient:
     name: str
     dietary_tags: set[DietaryTag]
+
 
 class RecipeIngredient:
     def __init__(self, ingredient: Ingredient, quantity: int | float, unit: str):
