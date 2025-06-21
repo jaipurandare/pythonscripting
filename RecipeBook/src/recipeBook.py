@@ -9,3 +9,7 @@ class RecipeBook:
     def search_by_name(self, query):
         lower_query = query.lower()
         return [recipe for recipe in self.recipes if lower_query in recipe.name.lower()]
+    
+    def search_by_ingredient(self, query):
+        lower_query = query.lower()
+        return [recipe for recipe in self.recipes if any(lower_query in ingredient.name.lower() for ingredient in recipe.ingredients)]

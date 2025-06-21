@@ -24,4 +24,4 @@ class Recipe:
         return tags
     
     def __repr__(self):
-        return f"name: {self.name}, ingredients: {",".join(self.ingredients)}, \n instructions: {self.instructions} "
+        return f"name: {self.name}, ingredients: {self.ingredients}, \n instructions: {self.instructions} "

@@ -1,6 +1,8 @@
 import unittest
 import sys
 sys.path.append("..")
+from src.constants import DietaryTag, MeasurementUnits
+from src.ingredients import Ingredient, RecipeIngredient
 from src.recipe import Recipe
 from src.recipeBook import RecipeBook
 
@@ -20,4 +22,16 @@ class TestRecipeBook(unittest.TestCase):
         book = RecipeBook("book", [pasta, omlet, macaroni_pasta])
         actual_search_result = sorted(book.search_by_name("Pasta"), key=lambda recipe: recipe.name)
         expected_result = [macaroni_pasta, pasta]
+        self.assertListEqual(expected_result, actual_search_result)
+
+    def test_search_by_ingredient_returns_all_containing_query(self):
+        egg = Ingredient("egg", [DietaryTag.GLUTEN_FREE, DietaryTag.NON_VEGETARIAN, DietaryTag.NUT_FREE])
+        salt = Ingredient("salt", [DietaryTag.GLUTEN_FREE, DietaryTag.NUT_FREE, DietaryTag.VEGAN, DietaryTag.VEGETARIAN])
+        tsp_salt = RecipeIngredient(salt,1, MeasurementUnits.TEA_SPOON)
+        pasta = Recipe("pasta", [RecipeIngredient(egg,1, MeasurementUnits.COUNT), tsp_salt], [])
+        omlet = Recipe("omlet", [RecipeIngredient(egg,2, MeasurementUnits.COUNT), tsp_salt], [])
+        macaroni_pasta = Recipe("macaroni pasta", [tsp_salt], [])
+        book = RecipeBook("book", [pasta, omlet, macaroni_pasta])
+        actual_search_result = sorted(book.search_by_ingredient("Egg"), key=lambda recipe: recipe.name)
+        expected_result = [omlet, pasta]
         self.assertListEqual(expected_result, actual_search_result)

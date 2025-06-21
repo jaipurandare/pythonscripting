@@ -14,6 +14,7 @@ class RecipeIngredient:
         self.quantity = quantity
         self.unit = unit
         self.dietary_tags = self.ingredient.dietary_tags
+        self.name = self.ingredient.name
 
     def __repr__(self):
         return f"{self.ingredient.name} : {self.quantity} {self.unit}"
