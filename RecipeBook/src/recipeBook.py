@@ -13,3 +13,9 @@ class RecipeBook:
     def search_by_ingredient(self, query):
         lower_query = query.lower()
         return [recipe for recipe in self.recipes if any(lower_query in ingredient.name.lower() for ingredient in recipe.ingredients)]
+    
+    def add_recipe(self, recipe):
+        if isinstance(recipe, Recipe):
+            self.recipes.append(recipe)
+        else:
+            raise TypeError(f"Expected type Recipe but passed {type(recipe)}")

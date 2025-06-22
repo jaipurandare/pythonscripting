@@ -35,3 +35,18 @@ class TestRecipeBook(unittest.TestCase):
         actual_search_result = sorted(book.search_by_ingredient("Egg"), key=lambda recipe: recipe.name)
         expected_result = [omlet, pasta]
         self.assertListEqual(expected_result, actual_search_result)
+
+    def test_add_recipe(self):
+        macaroni_pasta = Recipe("macaroni pasta", [], [])
+        my_book = RecipeBook("my_book")
+        my_book.add_recipe(macaroni_pasta)
+        expected_recipes = [macaroni_pasta]
+        self.assertListEqual(expected_recipes, my_book.recipes)
+
+
+    def test_add_recipe_raise_exception_if_not_recipe(self):
+        my_book = RecipeBook("my_book")
+        exception_message = "Expected type Recipe but passed <class 'NoneType'>"
+        with self.assertRaises(TypeError) as ex:
+            my_book.add_recipe(None)
+        self.assertEqual(exception_message,str(ex.exception))
