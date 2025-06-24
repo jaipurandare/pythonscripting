@@ -1,3 +1,4 @@
+from .helpers import log_recipe_action
 from .recipe import Recipe
 
 
@@ -14,6 +15,7 @@ class RecipeBook:
         lower_query = query.lower()
         return [recipe for recipe in self.recipes if any(lower_query in ingredient.name.lower() for ingredient in recipe.ingredients)]
     
+    @log_recipe_action("add")
     def add_recipe(self, recipe):
         if isinstance(recipe, Recipe):
             self.recipes.append(recipe)

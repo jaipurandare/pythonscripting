@@ -1,6 +1,17 @@
 import unittest
+import unittest.mock
 import sys
 sys.path.append("..")
+
+def mocked_decorator(func):
+    def wrapper(self, *args, **kwargs):
+        return func(self, *args, **kwargs)
+    return wrapper
+import src.helpers
+src.helpers.log_recipe_action = unittest.mock.Mock(return_value=mocked_decorator)
+# This mocking has to be done before recipeBook module is imported.
+# since log_recipe_action is used as decorator it gets called immediately.
+
 from src.constants import DietaryTag, MeasurementUnits
 from src.ingredients import Ingredient, RecipeIngredient
 from src.recipe import Recipe
@@ -42,7 +53,7 @@ class TestRecipeBook(unittest.TestCase):
         my_book.add_recipe(macaroni_pasta)
         expected_recipes = [macaroni_pasta]
         self.assertListEqual(expected_recipes, my_book.recipes)
-
+        src.helpers.log_recipe_action.assert_called_once()
 
     def test_add_recipe_raise_exception_if_not_recipe(self):
         my_book = RecipeBook("my_book")
@@ -50,3 +61,4 @@ class TestRecipeBook(unittest.TestCase):
         with self.assertRaises(TypeError) as ex:
             my_book.add_recipe(None)
         self.assertEqual(exception_message,str(ex.exception))
+        src.helpers.log_recipe_action.assert_called_once()
