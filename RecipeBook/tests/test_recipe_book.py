@@ -1,7 +1,5 @@
 import unittest
 import unittest.mock
-import sys
-sys.path.append("..")
 
 def mocked_decorator(func):
     def wrapper(self, *args, **kwargs):

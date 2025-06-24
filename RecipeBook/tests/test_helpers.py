@@ -1,8 +1,7 @@
 import io
 import unittest
 import unittest.mock
-import sys
-sys.path.append("..")
+
 from src.helpers import log_recipe_action
 from src.recipe import Recipe
 

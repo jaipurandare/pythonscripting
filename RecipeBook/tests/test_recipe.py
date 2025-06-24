@@ -1,7 +1,4 @@
 import unittest
-import sys
-sys.path.append("..")
-
 from src.recipe import Recipe, Instruction
 from src.ingredients import Ingredient, RecipeIngredient
 from src.constants import DietaryTag, MeasurementUnits
