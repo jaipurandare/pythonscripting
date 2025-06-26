@@ -6,6 +6,7 @@ class DietaryTag(StrEnum):
     GLUTEN_FREE = auto()
     NUT_FREE = auto()
     NON_VEGETARIAN = auto()
+    NOT_APPLICABLE = auto()
 
 class MeasurementUnits(StrEnum):
     OZ = auto()
@@ -14,3 +15,10 @@ class MeasurementUnits(StrEnum):
     TEA_SPOON = "tsp"
     TABLE_SPOON = "tbsp"
     TO_TASTE = auto()
+    GM = auto()
+    ML = auto()
+
+    @classmethod
+    def from_str(cls, unit):
+        return cls(unit)
+    
