@@ -18,3 +18,15 @@ class RecipeIngredient:
 
     def __repr__(self):
         return f"{self.ingredient.name} : {self.quantity} {self.unit}"
+    
+    def __eq__(self, value):
+        return type(self) == type(value) and \
+            self.name == value.name and \
+            self.quantity == value.quantity and \
+            self.unit == value.unit
+
+
+class IngredientRepository:
+    
+    def get_ingredient(self, name):
+        pass

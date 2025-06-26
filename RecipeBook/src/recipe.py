@@ -9,7 +9,13 @@ class Instruction:
         self.equipment = equipment
     
     def __repr__(self):
-        return f"{self.step_number} {self.description}"
+        return f"{self.step_number}: {self.description} \nprep_time: {self.prep_time}\nequipment: {self.equipment}"
+    
+    def __eq__(self, value):
+        return self.step_number == value.step_number and \
+        self.description == value.description and \
+        self.prep_time == value.prep_time and \
+        self.equipment == value.equipment
 
 class Recipe:
     def __init__(self, name: str, ingredients: list[RecipeIngredient], instructions: list[Instruction]):
@@ -25,3 +31,9 @@ class Recipe:
     
     def __repr__(self):
         return f"name: {self.name}, ingredients: {self.ingredients}, \n instructions: {self.instructions} "
+    
+    def __eq__(self, value):
+        return type(self) == type(value) and \
+        self.name == value.name and \
+        sorted(self.ingredients, key=lambda i: i.name) == sorted(value.ingredients, key=lambda i: i.name)  and \
+        sorted(self.instructions, key=lambda i: i.step_number) == sorted(value.instructions, key=lambda i: i.step_number)
